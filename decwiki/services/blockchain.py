@@ -1,24 +1,28 @@
-from web3 import Web3
 import json
+from django.conf import settings
+from web3 import Web3
 
-# Set up the connection to the local Ganache blockchain
-ganache_url = 'http://127.0.0.1:7545'
-web3 = Web3(Web3.HTTPProvider(ganache_url))
+abi_path = settings.ABI_FILE_PATH
 
-# Load the contract ABI and address
-with open('path_to_abi.json') as f:
-    contract_abi = json.load(f)
-contract_address = 'your_contract_address_here'
-contract = web3.eth.contract(address=contract_address, abi=contract_abi)
+try:
+    with open(abi_path) as f:
+        abi = json.load(f)
+except FileNotFoundError:
+    print(f"File not found: {abi_path}")
+    raise
+except json.JSONDecodeError:
+    print(f"Invalid JSON in file: {abi_path}")
+    raise
 
-def create_content(ipfs_hash, user_address):
-    tx_hash = contract.functions.createContent(ipfs_hash).transact({'from': user_address})
-    web3.eth.waitForTransactionReceipt(tx_hash)
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+contract_address = '0xF748328Cc6FbD68dDFAe848719344D8d7814aBD7'
+contract = w3.eth.contract(address=contract_address, abi=abi)
+
+def create_content(ipfs_hash, author_address):
+    pass
 
 def upvote_content(content_id, user_address):
-    tx_hash = contract.functions.upvoteContent(content_id).transact({'from': user_address})
-    web3.eth.waitForTransactionReceipt(tx_hash)
+    pass
 
 def downvote_content(content_id, user_address):
-    tx_hash = contract.functions.downvoteContent(content_id).transact({'from': user_address})
-    web3.eth.waitForTransactionReceipt(tx_hash)
+    pass
