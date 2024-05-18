@@ -1,4 +1,4 @@
-# myapp/ipfs_utils.py
+
 import ipfshttpclient
 
 def save_to_ipfs(file):

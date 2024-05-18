@@ -10,7 +10,7 @@ def index(request):
 def create_content_view(request):
     if request.method == 'POST':
         file = request.FILES['file']
-        ipfs_hash = save_to_ipfs(file)  # Implement IPFS saving logic
+        ipfs_hash = save_to_ipfs(file) 
         create_content(ipfs_hash, request.user.address)
         Content.objects.create(author=request.user, ipfs_hash=ipfs_hash)
         return redirect('index')
