@@ -21,8 +21,8 @@ contract = w3.eth.contract(address=contract_address, abi=abi)
 def create_content(ipfs_hash, author_address):
     pass
 
-def upvote_content(content_id, user_address):
-    pass
+# def upvote_content(content_id, user_address):
+#     pass
 
-def downvote_content(content_id, user_address):
-    pass
+# def downvote_content(content_id, user_address):
+#     pass
