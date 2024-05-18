@@ -2,15 +2,25 @@ from django.shortcuts import render, redirect
 from .models import Content
 from services.blockchain import create_content, upvote_content, downvote_content
 from .ipfs_utils import save_to_ipfs
-
+import ipfshttpclient
 def index(request):
     contents = Content.objects.all()
     return render(request, 'index.html', {'contents': contents})
 
+def add_to_ipfs(content):
+    # Connect to the local IPFS daemon
+    client = ipfshttpclient.connect('/ip4/127.0.0.1/tcp/5001')
+
+    # Add content to IPFS
+    res = client.add_bytes(content.encode())
+
+    # Return the IPFS hash of the added content
+    return res['Hash']
+
 def create_content_view(request):
     if request.method == 'POST':
         file = request.FILES['file']
-        ipfs_hash = save_to_ipfs(file)  # Implement IPFS saving logic
+        ipfs_hash = save_to_ipfs(file) 
         create_content(ipfs_hash, request.user.address)
         Content.objects.create(author=request.user, ipfs_hash=ipfs_hash)
         return redirect('index')

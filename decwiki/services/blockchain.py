@@ -15,7 +15,7 @@ except json.JSONDecodeError:
     raise
 
 w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
-contract_address = '0xF748328Cc6FbD68dDFAe848719344D8d7814aBD7'
+contract_address = '0x194B2D9DD3172a87138Bcf50F4C1453a27896Bc6'
 contract = w3.eth.contract(address=contract_address, abi=abi)
 
 def create_content(ipfs_hash, author_address):
